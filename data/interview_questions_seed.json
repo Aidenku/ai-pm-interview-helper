@@ -1,0 +1,30 @@
+[
+  {
+    "company": "字节跳动",
+    "role_keyword": "AI产品经理",
+    "question": "请设计一个提升对话式AI留存率的核心指标体系。",
+    "source": "公开面试经验整理",
+    "difficulty": "中"
+  },
+  {
+    "company": "阿里巴巴",
+    "role_keyword": "产品经理",
+    "question": "如何评估一个推荐模型上线后的真实业务收益？",
+    "source": "公开面试经验整理",
+    "difficulty": "高"
+  },
+  {
+    "company": "美团",
+    "role_keyword": "产品经理",
+    "question": "请给出从0到1设计A/B实验平台需求的PRD框架。",
+    "source": "公开面试经验整理",
+    "difficulty": "高"
+  },
+  {
+    "company": "京东",
+    "role_keyword": "AI产品经理",
+    "question": "如果要做一个电商智能导购Agent，你会怎么定义成功？",
+    "source": "公开面试经验整理",
+    "difficulty": "中"
+  }
+]

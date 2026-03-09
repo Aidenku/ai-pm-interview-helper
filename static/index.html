@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI PM 实习雷达</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <header class="topbar">
+      <div>
+        <h1>AI PM 实习雷达</h1>
+        <p>统一岗位列表 + 同页JD与准备方案</p>
+      </div>
+      <button id="refreshBtn" class="btn-primary">立即抓取新岗位</button>
+    </header>
+
+    <main class="layout-main">
+      <section class="panel filters">
+        <h2>筛选条件</h2>
+        <div class="form-row">
+          <label for="keyword">关键词</label>
+          <input id="keyword" placeholder="AI产品经理 / 暑期 / 转正实习" />
+        </div>
+        <div class="form-row">
+          <label for="company">公司</label>
+          <select id="company">
+            <option value="">全部</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="city">城市</label>
+          <input id="city" placeholder="北京 / 上海 / 杭州" />
+        </div>
+        <button id="searchBtn" class="btn-secondary">查询岗位</button>
+
+        <div class="mock-entry-card">
+          <p class="entry-kicker">模拟 AI PM 面试训练</p>
+          <h3>已经了解岗位要求？直接开始一轮通用 AI PM 面试练习。</h3>
+          <p>试着训练你的产品表达、AI理解和项目拆解能力，再回头看岗位要求会更有感觉。</p>
+          <a href="/mock-interview" class="btn-primary mock-entry-button">开始 AI PM 模拟面试</a>
+        </div>
+
+        <div class="status-box">
+          <h3>任务状态</h3>
+          <p id="statusText">加载中...</p>
+          <p id="lastRunText"></p>
+          <p id="nextRunText"></p>
+        </div>
+      </section>
+
+      <section class="panel jobs-block">
+        <div class="jobs-head">
+          <h2>岗位列表</h2>
+          <span id="jobCount">0 条</span>
+        </div>
+        <div id="jobList" class="job-list"></div>
+      </section>
+
+      <section class="panel detail-panel">
+        <h2>岗位详情</h2>
+        <div id="detailEmpty" class="placeholder">点击中间岗位卡片查看详情</div>
+
+        <div id="detailContent" class="hidden">
+          <h3 id="detailTitle"></h3>
+          <p id="detailMeta" class="meta"></p>
+          <div class="action-row">
+            <a id="detailApply" class="btn-link" target="_blank" rel="noreferrer">投递入口</a>
+            <button id="showJD" class="btn-link ghost" type="button">岗位JD</button>
+            <button id="showGap" class="btn-link ghost" type="button">能力匹配</button>
+            <button id="showPrep" class="btn-link ghost" type="button">面试准备</button>
+          </div>
+
+          <div id="jdPane" class="pane">
+            <div class="analysis-section">
+              <h4>JD智能解析</h4>
+
+              <div class="analysis-card">
+                <div class="analysis-head">
+                  <span class="analysis-label">岗位难度</span>
+                  <span id="analysisDifficulty" class="difficulty-badge">待解析</span>
+                </div>
+
+                <div class="analysis-group">
+                  <h5>岗位关键词</h5>
+                  <div id="analysisKeywords" class="chip-list"></div>
+                </div>
+
+                <div class="analysis-group">
+                  <h5>能力要求标签</h5>
+                  <div id="analysisSkills" class="chip-list"></div>
+                </div>
+
+                <div class="analysis-group">
+                  <h5>技术理解要求</h5>
+                  <div id="analysisTech" class="tech-list"></div>
+                </div>
+
+                <div class="analysis-group">
+                  <h5>场景方向识别</h5>
+                  <div id="analysisScenarios" class="chip-list"></div>
+                </div>
+
+                <div class="analysis-group">
+                  <h5>简短总结</h5>
+                  <p id="analysisSummary" class="analysis-summary"></p>
+                </div>
+              </div>
+            </div>
+
+            <h4>岗位JD</h4>
+            <p id="detailJD"></p>
+          </div>
+
+          <div id="gapPane" class="pane hidden">
+            <h4>能力匹配 / 能力 gap 分析</h4>
+
+            <div class="gap-card">
+              <div class="gap-head">
+                <div>
+                  <p class="gap-label">默认用户画像</p>
+                  <p id="gapProfileText" class="gap-profile-text"></p>
+                </div>
+                <div class="gap-score-box">
+                  <span class="gap-score-label">匹配度</span>
+                  <span id="gapScore" class="gap-score-value">0</span>
+                </div>
+              </div>
+
+              <div class="gap-grid">
+                <div class="gap-section">
+                  <h5>已匹配能力</h5>
+                  <div id="gapMatched" class="chip-list"></div>
+                </div>
+
+                <div class="gap-section">
+                  <h5>待补能力</h5>
+                  <div id="gapMissing" class="chip-list"></div>
+                </div>
+              </div>
+
+              <div class="gap-section">
+                <h5>优先补齐建议</h5>
+                <div id="gapPriority" class="chip-list"></div>
+              </div>
+
+              <div class="gap-section">
+                <h5>简短建议</h5>
+                <p id="gapAdvice" class="analysis-summary"></p>
+              </div>
+            </div>
+          </div>
+
+          <div id="prepPane" class="pane hidden">
+            <h4>面试准备</h4>
+            <div id="interviewPrepGroups" class="interview-groups"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

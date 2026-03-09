@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI PM 模拟面试</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <header class="topbar mock-topbar">
+      <div>
+        <a class="back-link" href="/">返回岗位首页</a>
+        <h1>AI PM 模拟面试</h1>
+        <p>围绕产品基础、AI专项和项目深挖进行训练</p>
+      </div>
+      <div class="mock-topbar-actions">
+        <span id="engineBadge" class="tag">训练引擎：待启动</span>
+      </div>
+    </header>
+
+    <main class="mock-layout">
+      <section class="panel mock-main-panel">
+        <div class="mock-hero">
+          <div>
+            <h2>开始一轮通用 AI PM 面试训练</h2>
+            <p>这不是闲聊页面，而是结构化训练场。你会看到问题、提交回答、收到反馈，然后继续下一题。</p>
+          </div>
+          <button id="startInterviewBtn" class="btn-primary" type="button">开始本轮训练</button>
+        </div>
+
+        <section class="mock-mode-section">
+          <h3>选择训练模式</h3>
+          <div class="mode-grid">
+            <button class="mode-card active-mode" data-mode="quick" type="button">
+              <strong>快速模式</strong>
+              <span>5题快速热身</span>
+            </button>
+            <button class="mode-card" data-mode="standard" type="button">
+              <strong>标准模式</strong>
+              <span>10题完整训练</span>
+            </button>
+            <button class="mode-card" data-mode="pressure" type="button">
+              <strong>压力模式</strong>
+              <span>更强追问与深挖</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="mock-chat-shell">
+          <div id="mockEmpty" class="placeholder mock-placeholder">选择模式后点击“开始本轮训练”，系统会给出第一道题。</div>
+          <div id="mockChatList" class="mock-chat-list hidden"></div>
+        </section>
+
+        <section class="mock-input-section">
+          <label for="answerInput">你的回答</label>
+          <textarea id="answerInput" rows="6" placeholder="建议先给结论，再分点展开。你可以从目标、用户、方案、指标、取舍这几个角度回答。"></textarea>
+          <div class="mock-input-actions">
+            <button id="submitAnswerBtn" class="btn-primary" type="button" disabled>提交回答</button>
+            <button id="nextQuestionBtn" class="btn-secondary" type="button" disabled>下一题</button>
+            <button id="endInterviewBtn" class="btn-link ghost" type="button">结束模拟</button>
+          </div>
+          <p id="mockStatusText" class="mock-status-text">当前未开始训练。</p>
+        </section>
+      </section>
+
+      <aside class="panel mock-side-panel">
+        <h2>训练辅助</h2>
+        <div class="mock-side-group">
+          <p class="side-label">当前题型</p>
+          <p id="currentCategory" class="side-value">-</p>
+        </div>
+        <div class="mock-side-group">
+          <p class="side-label">本题考察点</p>
+          <div id="currentFocusPoints" class="chip-list"></div>
+        </div>
+        <div class="mock-side-group">
+          <p class="side-label">建议回答方式</p>
+          <p id="currentFramework" class="side-value">-</p>
+        </div>
+        <div class="mock-side-group">
+          <p class="side-label">当前进度</p>
+          <p id="currentProgress" class="side-value">未开始</p>
+        </div>
+        <div class="mock-side-group">
+          <p class="side-label">模式说明</p>
+          <p id="currentModeDesc" class="side-value">先选择一个训练模式。</p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="/mock-interview.js"></script>
+  </body>
+</html>

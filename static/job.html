@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>岗位准备方案</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <header class="topbar">
+      <div>
+        <h1>岗位准备方案</h1>
+        <p>JD解析 + 7天冲刺计划 + 高频题</p>
+      </div>
+      <a class="btn-primary link-button" href="/">返回岗位列表</a>
+    </header>
+
+    <main class="layout-single">
+      <section class="panel">
+        <div id="loading" class="placeholder">加载中...</div>
+
+        <div id="content" class="hidden detail-content">
+          <h2 id="title"></h2>
+          <p id="meta"></p>
+          <p><a id="applyLink" target="_blank" rel="noreferrer">打开岗位投递入口</a></p>
+
+          <h3>岗位JD（摘要）</h3>
+          <p id="jd"></p>
+
+          <h3>能力重点</h3>
+          <ul id="focus"></ul>
+
+          <h3>7天面试冲刺计划</h3>
+          <ul id="plan"></ul>
+
+          <h3>高频面试题</h3>
+          <ul id="questions"></ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="/job.js"></script>
+  </body>
+</html>
