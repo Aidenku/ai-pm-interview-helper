@@ -9,6 +9,8 @@ class MockInterviewQuestion:
     focus_points: list[str] = field(default_factory=list)
     answer_framework: str = "结论先行"
     why_this_matters: str = ""
+    question_source: str = "universal"
+    context_label: str = "通用题"
 
     def to_dict(self) -> dict:
         return {
@@ -18,6 +20,8 @@ class MockInterviewQuestion:
             "focus_points": list(self.focus_points),
             "answer_framework": self.answer_framework,
             "why_this_matters": self.why_this_matters,
+            "question_source": self.question_source,
+            "context_label": self.context_label,
         }
 
 

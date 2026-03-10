@@ -25,8 +25,8 @@
       <section class="panel mock-main-panel">
         <div class="mock-hero">
           <div>
-            <h2>开始一轮通用 AI PM 面试训练</h2>
-            <p>这不是闲聊页面，而是结构化训练场。你会看到问题、提交回答、收到反馈，然后继续下一题。</p>
+            <h2>开始一轮 AI PM 面试训练</h2>
+            <p>这不是闲聊页面，而是结构化训练场。通用题为主，部分题会结合你的简历和目标岗位做业务面深挖。</p>
           </div>
           <button id="startInterviewBtn" class="btn-primary" type="button">开始本轮训练</button>
         </div>
@@ -49,6 +49,19 @@
           </div>
         </section>
 
+        <section class="mock-context-section">
+          <div class="mock-context-grid">
+            <div class="mock-context-card">
+              <p class="side-label">岗位上下文</p>
+              <p id="jobContextText" class="side-value">当前未绑定具体岗位，将进行通用训练。</p>
+            </div>
+            <div class="mock-context-card">
+              <p class="side-label">简历画像</p>
+              <p id="profileContextText" class="side-value">当前未读取个人画像，将不会生成简历深挖题。</p>
+            </div>
+          </div>
+        </section>
+
         <section class="mock-chat-shell">
           <div id="mockEmpty" class="placeholder mock-placeholder">选择模式后点击“开始本轮训练”，系统会给出第一道题。</div>
           <div id="mockChatList" class="mock-chat-list hidden"></div>
@@ -59,6 +72,7 @@
           <textarea id="answerInput" rows="6" placeholder="建议先给结论，再分点展开。你可以从目标、用户、方案、指标、取舍这几个角度回答。"></textarea>
           <div class="mock-input-actions">
             <button id="submitAnswerBtn" class="btn-primary" type="button" disabled>提交回答</button>
+            <button id="answerFollowUpBtn" class="btn-secondary" type="button" disabled>回答追问</button>
             <button id="nextQuestionBtn" class="btn-secondary" type="button" disabled>下一题</button>
             <button id="endInterviewBtn" class="btn-link ghost" type="button">结束模拟</button>
           </div>
@@ -71,6 +85,10 @@
         <div class="mock-side-group">
           <p class="side-label">当前题型</p>
           <p id="currentCategory" class="side-value">-</p>
+        </div>
+        <div class="mock-side-group">
+          <p class="side-label">出题策略</p>
+          <p id="currentStrategy" class="side-value">通用题</p>
         </div>
         <div class="mock-side-group">
           <p class="side-label">本题考察点</p>

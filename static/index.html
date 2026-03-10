@@ -37,6 +37,23 @@
         </div>
         <button id="searchBtn" class="btn-secondary">查询岗位</button>
 
+        <div class="profile-card">
+          <p class="entry-kicker">简历 / 个人画像对齐</p>
+          <h3>输入你的背景文本，或上传 PDF 简历</h3>
+          <p>系统会解析成结构化个人画像，并在查看岗位时自动用你的真实背景重新计算能力 gap。</p>
+          <textarea id="profileInput" rows="7" placeholder="例如：做过 AI 搜索产品项目、会基础 SQL、做过 Prompt 调优、参与过埋点和数据分析，但 A/B 测试和模型评测还不够扎实。"></textarea>
+          <div class="form-row profile-file-row">
+            <label for="profileFileInput">或上传简历文件</label>
+            <input id="profileFileInput" class="profile-file-input" type="file" accept=".pdf,.txt" />
+            <p class="profile-helper">当前优先支持 PDF 简历自动解析；如果 PDF 文本解析不稳定，也可以直接粘贴文本。</p>
+          </div>
+          <div class="profile-action-row">
+            <button id="applyProfileBtn" class="btn-secondary" type="button">更新个人画像</button>
+            <button id="resetProfileBtn" class="btn-link ghost" type="button">恢复默认画像</button>
+          </div>
+          <p id="profileStatusText" class="profile-status-text">当前使用默认画像。</p>
+        </div>
+
         <div class="mock-entry-card">
           <p class="entry-kicker">模拟 AI PM 面试训练</p>
           <h3>已经了解岗位要求？直接开始一轮通用 AI PM 面试练习。</h3>
@@ -69,6 +86,7 @@
           <p id="detailMeta" class="meta"></p>
           <div class="action-row">
             <a id="detailApply" class="btn-link" target="_blank" rel="noreferrer">投递入口</a>
+            <a id="detailMockInterview" class="btn-link ghost" href="/mock-interview">基于该岗位模拟</a>
             <button id="showJD" class="btn-link ghost" type="button">岗位JD</button>
             <button id="showGap" class="btn-link ghost" type="button">能力匹配</button>
             <button id="showPrep" class="btn-link ghost" type="button">面试准备</button>
@@ -77,57 +95,111 @@
           <div id="jdPane" class="pane">
             <div class="analysis-section">
               <h4>JD智能解析</h4>
-
               <div class="analysis-card">
                 <div class="analysis-head">
                   <span class="analysis-label">岗位难度</span>
                   <span id="analysisDifficulty" class="difficulty-badge">待解析</span>
                 </div>
-
                 <div class="analysis-group">
                   <h5>岗位关键词</h5>
                   <div id="analysisKeywords" class="chip-list"></div>
                 </div>
-
                 <div class="analysis-group">
                   <h5>能力要求标签</h5>
                   <div id="analysisSkills" class="chip-list"></div>
                 </div>
-
                 <div class="analysis-group">
                   <h5>技术理解要求</h5>
                   <div id="analysisTech" class="tech-list"></div>
                 </div>
-
                 <div class="analysis-group">
                   <h5>场景方向识别</h5>
                   <div id="analysisScenarios" class="chip-list"></div>
                 </div>
-
                 <div class="analysis-group">
                   <h5>简短总结</h5>
                   <p id="analysisSummary" class="analysis-summary"></p>
                 </div>
               </div>
             </div>
-
             <h4>岗位JD</h4>
             <p id="detailJD"></p>
           </div>
 
           <div id="gapPane" class="pane hidden">
             <h4>能力匹配 / 能力 gap 分析</h4>
-
             <div class="gap-card">
               <div class="gap-head">
                 <div>
-                  <p class="gap-label">默认用户画像</p>
+                  <p class="gap-label">当前对齐画像</p>
                   <p id="gapProfileText" class="gap-profile-text"></p>
                 </div>
                 <div class="gap-score-box">
-                  <span class="gap-score-label">匹配度</span>
+                  <span class="gap-score-label">总匹配度</span>
                   <span id="gapScore" class="gap-score-value">0</span>
+                  <span id="gapLevel" class="gap-score-subtext">低匹配</span>
                 </div>
+              </div>
+
+              <div class="gap-section">
+                <h5>岗位场景类型</h5>
+                <div class="chip-list">
+                  <span id="gapPrimaryDomain" class="chip"></span>
+                  <span id="gapSecondaryDomain" class="chip muted-chip"></span>
+                </div>
+                <p id="gapDomainReasoning" class="analysis-summary"></p>
+              </div>
+
+              <div class="gap-section recommendation-box">
+                <h5>是否建议投递</h5>
+                <div class="chip-list">
+                  <span id="gapRecommendation" class="chip"></span>
+                </div>
+                <p id="gapRecommendationReason" class="analysis-summary"></p>
+              </div>
+
+              <div class="layer-score-grid">
+                <div class="layer-score-card">
+                  <p class="gap-label">场景适配度</p>
+                  <div id="gapDomainScore" class="layer-score-value">0</div>
+                  <p id="gapDomainScoreHint" class="layer-score-hint"></p>
+                </div>
+                <div class="layer-score-card">
+                  <p class="gap-label">通用能力匹配</p>
+                  <div id="gapGeneralScore" class="layer-score-value">0</div>
+                  <p id="gapGeneralScoreHint" class="layer-score-hint"></p>
+                </div>
+                <div class="layer-score-card">
+                  <p class="gap-label">证据匹配</p>
+                  <div id="gapEvidenceScore" class="layer-score-value">0</div>
+                  <p id="gapEvidenceScoreHint" class="layer-score-hint"></p>
+                </div>
+              </div>
+
+              <div class="gap-section">
+                <h5>场景差距说明</h5>
+                <div id="gapDomainGap" class="chip-list"></div>
+              </div>
+
+              <div class="gap-grid">
+                <div class="gap-section">
+                  <h5>通用能力缺口</h5>
+                  <div id="gapGeneralGap" class="chip-list"></div>
+                </div>
+                <div class="gap-section">
+                  <h5>优先补齐项</h5>
+                  <div id="gapPriorityGap" class="chip-list"></div>
+                </div>
+              </div>
+
+              <div class="gap-section">
+                <h5>结论摘要</h5>
+                <p id="gapSummary" class="analysis-summary"></p>
+              </div>
+
+              <div class="gap-section">
+                <h5>现实建议</h5>
+                <ul id="gapRealisticAdvice" class="analysis-list"></ul>
               </div>
 
               <div class="gap-grid">
@@ -135,21 +207,38 @@
                   <h5>已匹配能力</h5>
                   <div id="gapMatched" class="chip-list"></div>
                 </div>
-
                 <div class="gap-section">
-                  <h5>待补能力</h5>
-                  <div id="gapMissing" class="chip-list"></div>
+                  <h5>潜在优势</h5>
+                  <div id="gapPotential" class="chip-list"></div>
+                </div>
+              </div>
+
+              <div class="gap-evidence-grid">
+                <div class="gap-section">
+                  <h5>JD关键信号</h5>
+                  <div id="gapJdSignals" class="chip-list"></div>
+                </div>
+                <div class="gap-section">
+                  <h5>简历命中信号</h5>
+                  <div id="gapResumeSignals" class="chip-list"></div>
+                </div>
+              </div>
+
+              <div class="gap-evidence-grid">
+                <div class="gap-section">
+                  <h5>已命中的证据</h5>
+                  <div id="gapMatchedEvidence" class="chip-list"></div>
+                </div>
+                <div class="gap-section">
+                  <h5>缺失证据</h5>
+                  <div id="gapMissingEvidence" class="chip-list"></div>
                 </div>
               </div>
 
               <div class="gap-section">
-                <h5>优先补齐建议</h5>
-                <div id="gapPriority" class="chip-list"></div>
-              </div>
-
-              <div class="gap-section">
-                <h5>简短建议</h5>
-                <p id="gapAdvice" class="analysis-summary"></p>
+                <h5>弱证据 / 幻觉风险</h5>
+                <div id="gapWeakEvidence" class="chip-list"></div>
+                <p id="gapRiskText" class="analysis-summary"></p>
               </div>
             </div>
           </div>

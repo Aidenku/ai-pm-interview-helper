@@ -22,6 +22,8 @@ from services.env_loader import load_env_file
 from services.gap_analysis import get_gap_analysis_service
 from services.jd_parser import get_jd_parser_service
 from services.mock_interview_service import get_mock_interview_service
+from services.profile_document import get_profile_document_service
+from services.profile_parser import get_profile_parser_service
 from services.question_generator import get_question_generator_service
 from services.user_profile import get_user_profile_service
 
@@ -51,6 +53,8 @@ QUESTION_GENERATOR = get_question_generator_service()
 USER_PROFILE_SERVICE = get_user_profile_service()
 AI_FEATURES = get_ai_feature_service()
 MOCK_INTERVIEW = get_mock_interview_service()
+PROFILE_PARSER = get_profile_parser_service()
+PROFILE_DOCUMENT = get_profile_document_service()
 
 COMPANY_SOURCES = [
     {
@@ -1870,7 +1874,7 @@ class Handler(BaseHTTPRequestHandler):
             self._write_json({"ok": True, "message": "refresh started"})
             return
 
-        if parsed.path in {"/api/jd-parse", "/api/gap-analysis", "/api/interview-questions", "/api/mock-interview/start", "/api/mock-interview/respond", "/api/mock-interview/next"}:
+        if parsed.path in {"/api/jd-parse", "/api/gap-analysis", "/api/interview-questions", "/api/profile-parse", "/api/mock-interview/start", "/api/mock-interview/respond", "/api/mock-interview/next"}:
             payload, error = self._read_json_body()
             if error:
                 self._write_json({"error": error}, status=400)
@@ -1879,8 +1883,11 @@ class Handler(BaseHTTPRequestHandler):
             if parsed.path.startswith("/api/mock-interview/"):
                 mode = str((payload or {}).get("mode") or "quick").strip() or "quick"
 
+                profile_analysis = (payload or {}).get("profile_analysis")
+                job_context = (payload or {}).get("job_context")
+
                 if parsed.path == "/api/mock-interview/start":
-                    self._write_json(MOCK_INTERVIEW.start_session(mode))
+                    self._write_json(MOCK_INTERVIEW.start_session(mode, profile_analysis=profile_analysis if isinstance(profile_analysis, dict) else None, job_context=job_context if isinstance(job_context, dict) else None))
                     return
 
                 if parsed.path == "/api/mock-interview/respond":
@@ -1898,6 +1905,8 @@ class Handler(BaseHTTPRequestHandler):
                         question=question,
                         answer=answer,
                         history=history if isinstance(history, list) else None,
+                        profile_analysis=profile_analysis if isinstance(profile_analysis, dict) else None,
+                        job_context=job_context if isinstance(job_context, dict) else None,
                     )
                     self._write_json(result)
                     return
@@ -1913,8 +1922,29 @@ class Handler(BaseHTTPRequestHandler):
                     question_index=question_index,
                     asked_questions=asked_questions if isinstance(asked_questions, list) else None,
                     history=history if isinstance(history, list) else None,
+                    profile_analysis=profile_analysis if isinstance(profile_analysis, dict) else None,
+                    job_context=job_context if isinstance(job_context, dict) else None,
                 )
                 self._write_json(result)
+                return
+
+            if parsed.path == "/api/profile-parse":
+                profile_text = str((payload or {}).get("profile_text") or "").strip()
+                file_name = str((payload or {}).get("file_name") or "resume.pdf").strip() or "resume.pdf"
+                file_data_base64 = str((payload or {}).get("file_data_base64") or "").strip()
+                source = "resume_text"
+                if file_data_base64:
+                    try:
+                        extracted_text = PROFILE_DOCUMENT.extract_text(file_name, file_data_base64)
+                    except Exception as exc:
+                        self._write_json({"error": f"failed to parse profile document: {exc}"}, status=400)
+                        return
+                    profile_text = extracted_text.strip() or profile_text
+                    source = "resume_pdf" if file_name.lower().endswith(".pdf") else "resume_text"
+                if not profile_text:
+                    self._write_json({"error": "profile_text or file_data_base64 is required"}, status=400)
+                    return
+                self._write_json(PROFILE_PARSER.parse_profile(profile_text, source=source))
                 return
 
             company = str((payload or {}).get("company") or "").strip()

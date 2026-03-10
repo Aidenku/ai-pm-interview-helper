@@ -172,6 +172,27 @@ def api_refresh():
     return _json({"ok": True, "message": "refresh started"})
 
 
+@app.post("/api/profile-parse")
+def api_profile_parse():
+    payload, error = _get_json_body()
+    if error:
+        return error
+    profile_text = str(payload.get("profile_text") or "").strip()
+    file_name = str(payload.get("file_name") or "resume.pdf").strip() or "resume.pdf"
+    file_data_base64 = str(payload.get("file_data_base64") or "").strip()
+    source = "resume_text"
+    if file_data_base64:
+        try:
+            extracted_text = legacy_app.PROFILE_DOCUMENT.extract_text(file_name, file_data_base64)
+        except Exception as exc:
+            return _json({"error": f"failed to parse profile document: {exc}"}, 400)
+        profile_text = extracted_text.strip() or profile_text
+        source = "resume_pdf" if file_name.lower().endswith(".pdf") else "resume_text"
+    if not profile_text:
+        return _json({"error": "profile_text or file_data_base64 is required"}, 400)
+    return _json(legacy_app.PROFILE_PARSER.parse_profile(profile_text, source=source))
+
+
 @app.post("/api/jd-parse")
 def api_jd_parse():
     payload, error = _get_json_body()

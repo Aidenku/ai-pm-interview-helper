@@ -1,0 +1,86 @@
+DOMAIN_ENUMS = [
+    "AI搜索产品",
+    "广告商业化产品",
+    "AI陪伴/社交产品",
+    "推荐策略产品",
+    "平台工具产品",
+    "企业服务产品",
+    "增长产品",
+    "通用AI产品",
+]
+
+DOMAIN_RULES = {
+    "AI搜索产品": {
+        "business_context": ["搜索", "检索", "智能搜索", "搜索问答", "query", "知识库"],
+        "required_domain_experience": ["召回", "排序", "意图识别", "query rewrite", "检索策略", "搜索质量"],
+        "core_metrics": ["搜索成功率", "召回率", "点击率", "满意度", "nDCG", "首条点击率"],
+        "decision_focus": ["召回排序", "意图识别", "搜索质量", "query理解", "知识召回"],
+        "domain_keywords": ["搜索", "检索", "rag", "query", "召回", "排序"],
+        "adjacent_domains": ["推荐策略产品", "通用AI产品", "平台工具产品"],
+    },
+    "广告商业化产品": {
+        "business_context": ["广告", "商业化", "投放", "变现", "广告主", "营销"],
+        "required_domain_experience": ["广告策略", "预算分配", "出价", "流量分发", "转化优化", "商业化产品"],
+        "core_metrics": ["ROI", "ROAS", "CTR", "CVR", "eCPM", "收入", "GMV"],
+        "decision_focus": ["变现效率", "广告体验平衡", "定向策略", "流量分配", "转化路径"],
+        "domain_keywords": ["广告", "商业化", "投放", "变现", "品牌", "营销"],
+        "adjacent_domains": ["增长产品", "推荐策略产品"],
+    },
+    "AI陪伴/社交产品": {
+        "business_context": ["陪伴", "社交", "聊天", "对话", "角色", "虚拟人", "社区"],
+        "required_domain_experience": ["长期记忆", "多轮对话", "人设稳定性", "留存机制", "互动体验", "安全策略"],
+        "core_metrics": ["留存", "使用时长", "互动率", "回复率", "DAU", "次日留存"],
+        "decision_focus": ["记忆设计", "人设一致性", "留存", "互动深度", "安全性"],
+        "domain_keywords": ["陪伴", "社交", "聊天", "角色", "记忆", "留存"],
+        "adjacent_domains": ["增长产品", "通用AI产品"],
+    },
+    "推荐策略产品": {
+        "business_context": ["推荐", "个性化", "分发", "feed", "内容推荐"],
+        "required_domain_experience": ["召回", "排序", "多目标优化", "特征", "推荐策略", "冷启动"],
+        "core_metrics": ["CTR", "使用时长", "完播率", "互动率", "转化率"],
+        "decision_focus": ["召回排序", "多目标平衡", "策略迭代", "冷启动", "分发效率"],
+        "domain_keywords": ["推荐", "召回", "排序", "个性化", "分发"],
+        "adjacent_domains": ["AI搜索产品", "广告商业化产品", "增长产品"],
+    },
+    "平台工具产品": {
+        "business_context": ["平台", "中台", "控制台", "工作台", "后台", "开放平台", "配置工具"],
+        "required_domain_experience": ["权限", "配置", "流程设计", "效率工具", "系统能力", "接入流程"],
+        "core_metrics": ["使用率", "接入率", "配置成功率", "稳定性", "人效"],
+        "decision_focus": ["可配置性", "流程效率", "权限治理", "系统稳定性", "接入成本"],
+        "domain_keywords": ["平台", "中台", "控制台", "权限", "配置", "工作台"],
+        "adjacent_domains": ["企业服务产品", "通用AI产品"],
+    },
+    "企业服务产品": {
+        "business_context": ["企业服务", "to b", "tob", "saas", "客户", "商家", "b端"],
+        "required_domain_experience": ["客户需求", "实施交付", "流程管理", "权限体系", "组织协同", "B端产品"],
+        "core_metrics": ["续费率", "企业活跃数", "使用率", "交付效率", "留存"],
+        "decision_focus": ["客户价值", "交付成本", "组织协同", "权限流程", "实施效率"],
+        "domain_keywords": ["企业服务", "B端", "SaaS", "客户", "商家"],
+        "adjacent_domains": ["平台工具产品", "增长产品"],
+    },
+    "增长产品": {
+        "business_context": ["增长", "拉新", "留存", "转化", "营销", "用户增长"],
+        "required_domain_experience": ["增长实验", "渠道策略", "转化路径", "激励机制", "增长策略", "漏斗优化"],
+        "core_metrics": ["新增", "留存", "转化率", "CAC", "LTV", "ROI"],
+        "decision_focus": ["拉新留存转化", "实验设计", "漏斗优化", "增长策略", "渠道效率"],
+        "domain_keywords": ["增长", "拉新", "留存", "转化", "漏斗", "营销"],
+        "adjacent_domains": ["广告商业化产品", "推荐策略产品", "通用AI产品"],
+    },
+    "通用AI产品": {
+        "business_context": ["AI", "大模型", "智能体", "生成式", "copilot", "模型应用"],
+        "required_domain_experience": ["Prompt", "模型效果", "评测", "AI功能设计", "工作流", "模型能力边界"],
+        "core_metrics": ["任务成功率", "满意度", "准确率", "使用率", "完成率"],
+        "decision_focus": ["模型能力边界", "产品体验", "评测迭代", "人机协同", "工作流效率"],
+        "domain_keywords": ["AI", "大模型", "智能体", "Prompt", "评测", "工作流"],
+        "adjacent_domains": ["AI搜索产品", "平台工具产品", "增长产品"],
+    },
+}
+
+SPECIALIZED_DOMAINS = {
+    "AI搜索产品",
+    "广告商业化产品",
+    "AI陪伴/社交产品",
+    "推荐策略产品",
+    "企业服务产品",
+    "增长产品",
+}
